@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Products{% endblock %}
+
+{% block content %}
+    <h2>Products</h2>
+    <form method="get" action=".">
+        <input type="text" name="q" placeholder="Search products..." value="{{ query }}">
+        <button type="submit">Search</button>
+        <select name="category" onchange="this.form.submit()">
+            <option value="">All Categories</option>
+            {% for cat in categories %}
+                <option value="{{ cat }}" {% if cat == selected_category %}selected{% endif %}>{{ cat }}</option>
+            {% endfor %}
+        </select>
+    </form>
+
+    <div class="product-list">
+        {% for product in page_obj %}
+            <div class="product-card">
+                <h3>{{ product.nom }}</h3>
+                <p>{{ product.description }}</p>
+                <p>Price: {{ product.prix }}</p>
+                <p>Category: {{ product.categorie }}</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1&q={{ query }}&category={{ selected_category }}">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}&q={{ query }}&category={{ selected_category }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}&q={{ query }}&category={{ selected_category }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}&q={{ query }}&category={{ selected_category }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock %}
