@@ -5,7 +5,7 @@
 {% block content %}
     <h2>Products</h2>
     <form method="get" action=".">
-        <input type="text" name="q" placeholder="Search products..." value="{{ query }}">
+        <input type="text" name="q" placeholder="Search products..." value="">
         <button type="submit">Search</button>
         <select name="category" onchange="this.form.submit()">
             <option value="">All Categories</option>
