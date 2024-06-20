@@ -9,6 +9,7 @@ header {
     background-color: #333;
     color: white;
     padding: 1rem;
+    position: fixed;
     text-align: center;
 }
 
@@ -37,7 +38,6 @@ footer {
     color: white;
     text-align: center;
     padding: 1rem;
-    position: absolute;
     bottom: 0;
     width: 100%;
 }
