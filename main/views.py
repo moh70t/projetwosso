@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from django.urls import reverse
 
 from main.models import Product
+from django.contrib.auth import login, authenticate
 from django.core.paginator import Paginator
 from django.core.mail import send_mail
 from django.conf import settings
-from .forms import ContactForm
+from .forms import ContactForm, SignUpForm
 
 
 # Create your views here.
@@ -37,6 +40,11 @@ def product(request):
 
 def add_to_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
+
+    if not request.user.is_authenticate :
+        messages.info(request, "Vueillez vous connecter pour pouvoir ajouter à votre panier !")
+        return redirect(f"{reverse('login')}?next={request.path}")
+
     cart = request.session.get('cart', {})
     
     if str(product_id) in cart:
@@ -88,3 +96,18 @@ def contact(request):
     else:
         form = ContactForm()
     return render(request, 'contact.html', {'form': form})
+
+
+def register(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('index')
+    else:
+        form = SignUpForm()
+    return render(request, 'registration/register.html', {'form': form})
