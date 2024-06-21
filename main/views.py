@@ -20,7 +20,7 @@ def product(request):
     query = request.GET.get('q')
     
     category = request.GET.get('category', '')
-    all_product = Product.objects.all()
+    all_product = Product.objects.all().order_by('name')
 
     if query:
         all_product = all_product.filter(name=query)
@@ -104,6 +104,8 @@ def register(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
+            first_name = form.cleaned_data.get('first_name')
+            last_name = form.cleaned_data.get('last_name')
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             login(request, user)
