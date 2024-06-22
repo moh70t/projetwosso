@@ -20,6 +20,8 @@
                 <li><a href="{% url 'product' %}">Nos produits</a></li>
                 <li><a href="{% url 'about' %}">A propos de Nous</a></li>
                 <li><a href="{% url 'contact' %}">Contact</a></li>
+
+
                 <li>
                     <a class="nav-link" href="#" data-toggle="modal" data-target="#cartModal">Cart</a>
                 </li>
@@ -35,12 +37,15 @@
                 </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">Login</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'register' %}">Sign Up</a>
                     </li>
                 {% endif %}
+
+
+
             </ul>
         </nav>
     </header>
@@ -66,6 +71,23 @@
                 </div>
             </div>
         </div>
+
+        <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Login</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- The login form will be inserted here via JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
         {% block content %}
         {% endblock %}
     </main>
@@ -93,6 +115,15 @@
                         cartItemsList.append(listItem);
                     }
                 }
+            });
+        });
+        $('#loginModal').on('show.bs.modal', function (e) {
+                var modal = $(this);
+                $.ajax({
+                    url: "{% url 'login' %}",
+                    success: function(data) {
+                        modal.find('.modal-body').html(data);
+                    }
             });
         });
     });

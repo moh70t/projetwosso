@@ -75,6 +75,9 @@ def checkout(request):
 def about(request):
     return render(request, 'about.html')
 
+def logout(request):
+    return redirect('index')
+
 
 def contact(request):
     if request.method == 'POST':
