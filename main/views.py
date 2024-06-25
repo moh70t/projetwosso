@@ -1,6 +1,9 @@
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib import messages
-from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+from main.models import Cart, CartItem
 
 from main.models import Product
 from django.contrib.auth import login, authenticate
@@ -38,30 +41,21 @@ def product(request):
     return render(request, 'product.html', {'page_obj': page_obj, 'query': query, 'categories': categories, 'selected_category': category})
 
 
+@login_required
 def add_to_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
+    if not created:
+        cart_item.quantity += 1
+        cart_item.save()
+    return redirect('cart_detail')
 
-    if not request.user.is_authenticate :
-        messages.info(request, "Vueillez vous connecter pour pouvoir ajouter à votre panier !")
-        return redirect(f"{reverse('login')}?next={request.path}")
-
-    cart = request.session.get('cart', {})
-    
-    if str(product_id) in cart:
-        cart[str(product_id)]['quantity'] += 1
-    else:
-        cart[str(product_id)] = {
-            'product_name': product.nom,
-            'price': str(product.prix),
-            'quantity': 1
-        }
-    
-    request.session['cart'] = cart
-    return redirect('cart')
-
-def view_cart(request):
-    cart = request.session.get('cart', {})
-    return render(request, 'cart.html', {'cart': cart})
+@login_required
+def cart_detail(request):
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart_items = CartItem.objects.filter(cart=cart)
+    return render(request, 'main/cart_detail.html', {'cart_items': cart_items})
 
 def checkout(request):
     cart = request.session.get('cart', {})
@@ -79,26 +73,18 @@ def logout(request):
     return redirect('index')
 
 
-def contact(request):
+def contact_view(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
-            name = form.cleaned_data['name']
-            email = form.cleaned_data['email']
-            message = form.cleaned_data['message']
-            
-            # Send an email
-            send_mail(
-                f'Message from {name}',
-                message,
-                email,
-                [settings.DEFAULT_FROM_EMAIL],
-            )
-            
-            return render(request, 'contact.html', {'form': form, 'success': True})
+            form.save()
+            return redirect('contact_success')
     else:
         form = ContactForm()
-    return render(request, 'contact.html', {'form': form})
+    return render(request, 'main/contact.html', {'form': form})
+
+def contact_success(request):
+    return render(request, 'main/contact_success.html')
 
 
 def register(request):
@@ -116,3 +102,26 @@ def register(request):
     else:
         form = SignUpForm()
     return render(request, 'registration/register.html', {'form': form})
+
+@login_required
+def generate_invoice(request):
+    cart = get_object_or_404(Cart, user=request.user)
+    cart_items = CartItem.objects.filter(cart=cart)
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="invoice.pdf"'
+
+    p = canvas.Canvas(response, pagesize=letter)
+    p.drawString(100, 750, f"Invoice for {request.user.first_name} {request.user.last_name}")
+
+    y = 700
+    total = 0
+    for item in cart_items:
+        p.drawString(100, y, f"{item.product.name} - {item.quantity} x ${item.product.price}")
+        total += item.quantity * item.product.price
+        y -= 20
+
+    p.drawString(100, y - 20, f"Total: ${total}")
+    p.showPage()
+    p.save()
+    return response

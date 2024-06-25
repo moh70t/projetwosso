@@ -100,7 +100,7 @@
     $(document).ready(function() {
         $('#cartModal').on('show.bs.modal', function (e) {
             $.ajax({
-                url: '{% url "cart" %}',
+                url: "{% url 'cart_detail' %}",
                 method: 'GET',
                 success: function (data) {
                     var cartItems = data.cart;

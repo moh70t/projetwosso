@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Votre Panier</h2>
+<table>
+    <tr>
+        <th>Produit</th>
+        <th>Quantité</th>
+        <th>Prix</th>
+        <th>Total</th>
+    </tr>
+    {% for item in cart_items %}
+    <tr>
+        <td>{{ item.product.name }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.product.price }}</td>
+        <td>{{ item.product.price|multiply:item.quantity }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

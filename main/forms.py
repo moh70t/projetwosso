@@ -2,12 +2,12 @@ from django import forms
 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from .models import Contact
 
-class ContactForm(forms.Form):
-    name = forms.CharField(max_length=100, label='Nom')
-    lastname = forms.CharField(max_length=100, label='Prenom')
-    email = forms.EmailField(label='Email')
-    message = forms.CharField(widget=forms.Textarea, label='Votre Message')
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = ['name', 'email', 'message']
 
 
 class SignUpForm(UserCreationForm):

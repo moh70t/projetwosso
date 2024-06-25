@@ -20,8 +20,14 @@
             <div class="product-card">
                 <h3>{{ product.nom }}</h3>
                 <p>{{ product.description }}</p>
-                <p>Price: {{ product.prix }}</p>
+                <p>Price: {{ product.price }}</p>
+                <p>Weight: {{ product.weight }}</p>
                 <p>Category: {{ product.categorie }}</p>
+                <p>
+                    <button class="btn btn-success">
+                        <a href="{% url 'add_to_cart' product.id %}">Add to cart</a>
+                    </button>
+                </p>
             </div>
         {% endfor %}
     </div>
