@@ -1,13 +1,22 @@
 {% extends 'base.html' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Accueil{% endblock %}
 
 {% block content %}
-    <h2>Welcome to My Business</h2>
-    <p>We offer the best products for you.</p>
-    <div style="height: 200px;"></div>
-    <div style="height: 200px;"></div>
-    <div style="height: 200px;"></div>
-    <div style="height: 200px;"></div>
-    <div style="height: 200px;"></div>
+    <h2>Bienvenue chez Anka Wosso</h2>
+    <p>Nous vous proposons les meilleurs produits.</p>
+
+    <!-- Section avec les images animées -->
+    <section class="animated-images">
+        <div class="animated-image">
+            <img src="/static/images/image1.jpg" alt="Image 1">
+        </div>
+        <div class="animated-image">
+            <img src="/static/images/image2.jpg" alt="Image 2">
+        </div>
+    </section>
+
+    <div style="height: 200px;"></div> <!-- Espace pour le contenu -->
+
+    <p>Découvrez notre gamme de délicieuses chips de patate douce!</p>
 {% endblock %}

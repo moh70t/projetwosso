@@ -19,7 +19,7 @@
                 <li><a href="{% url 'index' %}">Accueil</a></li>
                 <li><a href="{% url 'product' %}">Nos produits</a></li>
                 <li><a href="{% url 'about' %}">A propos de Nous</a></li>
-                <li><a href="{% url 'contact' %}">Contact</a></li>
+                <li><a href="{% url 'contacts' %}">Contact</a></li>
 
 
                 <li>
@@ -91,9 +91,39 @@
         {% block content %}
         {% endblock %}
     </main>
-    <footer>
-        <p>&copy; 2024 An ka Wosso. All rights reserved.</p>
-    </footer>
+  <footer>
+    <div class="footer-info">
+        <div class="footer-section">
+            <h3>Politique de Confidentialité</h3>
+            <p>Informations sur la manière dont nous collectons, utilisons et protégeons vos données personnelles.</p>
+            <a href="{% url 'privacy_policy' %}">En savoir plus</a>
+        </div>
+        <div class="footer-section">
+            <h3>Conditions d'Utilisation</h3>
+            <p>Conditions générales d'utilisation de notre site web et de nos services.</p>
+            <a href="{% url 'terms_of_service' %}">Lire les conditions</a>
+        </div>
+        <div class="footer-section">
+            <h3>Contactez-nous</h3>
+            <p>Pour toute question ou demande d'information, n'hésitez pas à nous contacter.</p>
+            <ul>
+                <li>Email: <a href="mailto:info@ankawosso.com">info@ankawosso.com</a></li>
+                <li>Téléphone: +123456789</li>
+                <li>Adresse: 123 Rue Principale, Bamako, Mali</li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>Suivez-nous</h3>
+            <div class="social-links">
+                <a href="https://www.facebook.com/anka_wosso" target="_blank"><img src="/static/images/facebook-icon.png" alt="Facebook"></a>
+                <a href="https://www.instagram.com/anka_wosso" target="_blank"><img src="/static/images/instagram-icon.png" alt="Instagram"></a>
+                <a href="https://www.twitter.com/anka_wosso" target="_blank"><img src="/static/images/twitter-icon.png" alt="Twitter"></a>
+            </div>
+        </div>
+    </div>
+    <p>&copy; 2024 An ka Wosso. Tous droits réservés.</p>
+</footer>
+
 </body>
 
 <script>

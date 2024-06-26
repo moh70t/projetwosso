@@ -5,7 +5,7 @@
 {% block content %}
     <h2>Products</h2>
     <form method="get" action=".">
-        <input type="text" name="q" placeholder="Search products..." value="">
+        <input type="text" name="q" placeholder="Search products..." value="{{ query }}">
         <button type="submit">Search</button>
         <select name="category" onchange="this.form.submit()">
             <option value="">All Categories</option>
@@ -18,10 +18,11 @@
     <div class="product-list">
         {% for product in page_obj %}
             <div class="product-card">
+                <img src="{{ product.image_url }}" alt="{{ product.nom }}">
                 <h3>{{ product.nom }}</h3>
                 <p>{{ product.description }}</p>
-                <p>Price: {{ product.price }}</p>
-                <p>Weight: {{ product.weight }}</p>
+                <p>Price: {{ product.price }} CFA</p>
+                <p>Weight: {{ product.weight }} g</p>
                 <p>Category: {{ product.categorie }}</p>
                 <p>
                     <button class="btn btn-success">

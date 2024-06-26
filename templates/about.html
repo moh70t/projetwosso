@@ -1,8 +1,78 @@
 {% extends 'base.html' %}
 
-{% block title %}A propos de Nous{% endblock %}
+{% block title %}À propos de Nous{% endblock %}
 
 {% block content %}
-    <h2>Welcome to About</h2>
-    <p>We offer the best products for you.</p>
+    <section class="about-hero">
+        <div class="hero-content">
+            <h1>Bienvenue chez Anka Wosso</h1>
+            <p>Nous transformons les meilleures patates douces en chips délicieuses et croquantes.</p>
+        </div>
+    </section>
+
+    <section class="about-us">
+        <div class="container">
+            <h2>À propos de Anka Wosso</h2>
+            <p>Chez Anka Wosso, nous nous engageons à offrir les meilleurs produits de patate douce. Fondée au cœur du Mali, notre usine utilise des méthodes de transformation innovantes pour produire des chips de patate douce savoureuses et nutritives. Nous travaillons avec des agriculteurs locaux pour garantir la fraîcheur et la qualité de nos produits.</p>
+        </div>
+    </section>
+
+    <section class="our-mission">
+        <div class="container">
+            <h2>Notre Mission</h2>
+            <div class="mission-content">
+                <img src="/static/images/mission.jpg" alt="Notre Mission">
+                <div class="mission-text">
+                    <p>Notre mission est de transformer les ressources locales en produits de haute qualité, tout en soutenant l'économie locale et en promouvant des pratiques agricoles durables. Nous croyons en la puissance de la patate douce pour fournir une nutrition essentielle et nous nous efforçons de créer des produits délicieux que tout le monde peut apprécier.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="our-values">
+        <div class="container">
+            <h2>Nos Valeurs</h2>
+            <div class="values-grid">
+                <div class="value-card">
+                    <img src="/static/images/quality.jpg" alt="Qualité">
+                    <h3>Qualité</h3>
+                    <p>Nous nous engageons à fournir des produits de la plus haute qualité en utilisant les meilleures pratiques de transformation.</p>
+                </div>
+                <div class="value-card">
+                    <img src="/static/images/sustainability.jpg" alt="Durabilité">
+                    <h3>Durabilité</h3>
+                    <p>Nous promouvons des pratiques agricoles durables pour protéger notre planète et soutenir nos communautés locales.</p>
+                </div>
+                <div class="value-card">
+                    <img src="/static/images/community.jpg" alt="Communauté">
+                    <h3>Communauté</h3>
+                    <p>Nous travaillons en étroite collaboration avec les agriculteurs et les communautés locales pour assurer un impact positif.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-us">
+        <div class="container">
+            <h2>Contactez-nous</h2>
+            <p>Vous avez des questions ou souhaitez en savoir plus sur nos produits? N'hésitez pas à nous contacter.</p>
+            <form>
+                <input type="text" name="name" placeholder="Votre Nom">
+                <input type="email" name="email" placeholder="Votre Email">
+                <textarea name="message" placeholder="Votre Message"></textarea>
+                <button type="submit">Envoyer</button>
+            </form>
+            <!-- Intégration de la carte Google Maps -->
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3922.711528303106!2dYOUR_LONGITUDE!3dYOUR_LATITUDE!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3AYOUR_BUSINESS_NAME!2sYOUR_BUSINESS_NAME!5e0!3m2!1sen!2suk!4v1624639702659!5m2!1sen!2suk" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+
+            <!-- Liens vers les réseaux sociaux -->
+            <div class="social-links">
+                <a href="https://www.facebook.com/anka_wosso" target="_blank"><img src="/static/images/facebook-icon.png" alt="Facebook"></a>
+                <a href="https://www.tiktok.com/anka_wosso" target="_blank"><img src="/static/images/tiktok-icon.png" alt="TikTok"></a>
+                <a href="https://www.instagram.com/anka_wosso" target="_blank"><img src="/static/images/instagram-icon.png" alt="Instagram"></a>
+            </div>
+        </div>
+    </section>
 {% endblock %}
