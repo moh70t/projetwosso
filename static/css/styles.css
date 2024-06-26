@@ -1,20 +1,40 @@
+:root {
+    --primary-color: rgb(243, 175, 64);
+    --secondary-color: rgb(142, 82, 44);
+    --text-color: black;
+    --font-family: Arial, sans-serif;
+    --padding: 1rem;
+    --margin: 0;
+    --box-sizing: border-box;
+}
+
 body {
     font-family: Arial, sans-serif;
+    color: var(--secondary-color);
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
 header {
-    background-color: #333;
+    display: flex!important;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--primary-color);
+    background-image: url("/static/img/PNG.png");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
     color: white;
-    padding: 1rem;
     text-align: center;
+    padding: 20px 0;
 }
 
 nav ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     list-style: none;
-    padding: 0;
 }
 
 nav ul li {
@@ -23,8 +43,23 @@ nav ul li {
 }
 
 nav ul li a {
-    color: white;
+    color: var(--secondary-color);
+    font-size: 1rem;
+    font-weight: bold;
     text-decoration: none;
+    padding: 10px;
+}
+
+nav ul li a:hover {
+    background-color: #dddddd71;
+    color: inherit;
+    border-radius: 15px;
+}
+
+.nav-link:hover {
+    background-color: #dddddd71;
+    color: inherit;
+    border-radius: 15px;
 }
 
 main {
@@ -33,9 +68,10 @@ main {
 }
 
 footer {
-    background-color: #333;
-    color: white;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
     text-align: center;
+    font-weight: bold;
     padding: 1rem;
     bottom: 0;
     width: 100%;
