@@ -19,7 +19,7 @@
                 <li><a href="{% url 'index' %}">Accueil</a></li>
                 <li><a href="{% url 'product' %}">Nos produits</a></li>
                 <li><a href="{% url 'about' %}">A propos de Nous</a></li>
-                <li><a href="{% url 'contacts' %}">Contact</a></li>
+                <li><a href="{% url 'contact_view' %}">Contact</a></li>
 
 
                 <li>
@@ -115,9 +115,9 @@
         <div class="footer-section">
             <h3>Suivez-nous</h3>
             <div class="social-links">
-                <a href="https://www.facebook.com/anka_wosso" target="_blank"><img src="/static/images/facebook-icon.png" alt="Facebook"></a>
-                <a href="https://www.instagram.com/anka_wosso" target="_blank"><img src="/static/images/instagram-icon.png" alt="Instagram"></a>
-                <a href="https://www.twitter.com/anka_wosso" target="_blank"><img src="/static/images/twitter-icon.png" alt="Twitter"></a>
+                <!-- <a href="https://www.facebook.com/anka_wosso" target="_blank"><img src="/static/images/facebook-icon.png" alt="Facebook"></a> -->
+                <!-- <a href="https://www.instagram.com/anka_wosso" target="_blank"><img src="/static/images/instagram-icon.png" alt="Instagram"></a> -->
+                <!-- <a href="https://www.twitter.com/anka_wosso" target="_blank"><img src="/static/images/twitter-icon.png" alt="Twitter"></a> -->
             </div>
         </div>
     </div>
@@ -150,7 +150,7 @@
         $('#loginModal').on('show.bs.modal', function (e) {
                 var modal = $(this);
                 $.ajax({
-                    url: "{% url 'login' %}",
+                    url: "{% url 'login_view' %}",
                     success: function(data) {
                         modal.find('.modal-body').html(data);
                     }

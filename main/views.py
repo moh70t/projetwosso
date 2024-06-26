@@ -3,6 +3,7 @@ from reportlab.pdfgen import canvas
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from main.models import Cart, CartItem
 
 from main.models import Product
@@ -61,7 +62,7 @@ def add_to_cart(request, product_id):
 def cart_detail(request):
     cart, created = Cart.objects.get_or_create(user=request.user)
     cart_items = CartItem.objects.filter(cart=cart)
-    return render(request, 'main/cart_detail.html', {'cart_items': cart_items})
+    return render(request, 'cart_detail.html', {'cart_items': cart_items})
 
 def checkout(request):
     cart = request.session.get('cart', {})
@@ -75,11 +76,6 @@ def checkout(request):
 def about(request):
     return render(request, 'about.html')
 
-def logout(request):
-    if request.method == 'POST':
-        logout(request)
-        return redirect('index')
-
 
 def contact_view(request):
     if request.method == 'POST':
@@ -89,10 +85,10 @@ def contact_view(request):
             return redirect('contact_success')
     else:
         form = ContactForm()
-    return render(request, 'main/contact.html', {'form': form})
+    return render(request, 'contact.html', {'form': form})
 
 def contact_success(request):
-    return render(request, 'main/contact_success.html')
+    return render(request, 'contact_success.html')
 
 
 def register(request):
@@ -110,6 +106,19 @@ def register(request):
     else:
         form = SignUpForm()
     return render(request, 'registration/register.html', {'form': form})
+
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('index')  # Redirige vers la page d'accueil après la connexion
+        else:
+            messages.error(request, 'Nom d\'utilisateur ou mot de passe incorrect')
+    return render(request, 'registration/login.html')
 
 @login_required
 def generate_invoice(request):
