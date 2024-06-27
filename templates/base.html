@@ -19,12 +19,12 @@
         </a>
         <nav>
             <ul>
-                <li><a href="{% url 'index' %}">Accueil</a></li>
-                <li><a href="{% url 'product' %}">Nos produits</a></li>
-                <li><a href="{% url 'about' %}">A propos de Nous</a></li>
-                <li><a href="{% url 'contact' %}">Contact</a></li>
+                <li><a class="nav-link" href="{% url 'index' %}">Accueil</a></li>
+                <li><a class="nav-link" href="{% url 'product_list' %}">Nos produits</a></li>
+                <li><a class="nav-link" href="{% url 'about' %}">A propos de Nous</a></li>
+                <li><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
                 <li>
-                    <a class="nav-link" href="#" data-toggle="modal" data-target="#cartModal">Cart</a>
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#cartModal">Panier</a>
                 </li>
 
                 {% if user.is_authenticated %}
@@ -54,13 +54,14 @@
             </ul>
         </nav>
             </div>
+        <div id="overlay"></div>
     </header>
     <main>
         <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="cartModalLabel">My Cart</h5>
+                        <h5 class="modal-title" id="cartModalLabel">Votre Panier</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -71,8 +72,8 @@
                         </ul>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <a href="{% url 'checkout' %}" class="btn btn-primary">Checkout</a>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        <a href="{% url 'checkout' %}" class="btn btn-primary">Commander</a>
                     </div>
                 </div>
             </div>
@@ -103,21 +104,12 @@
 <script>
     $(document).ready(function() {
         $('#cartModal').on('show.bs.modal', function (e) {
+            var modal = $(this)
             $.ajax({
                 url: '{% url "cart" %}',
                 method: 'GET',
                 success: function (data) {
-                    var cartItems = data.cart;
-                    var cartItemsList = $('#cart-items');
-                    cartItemsList.empty();  // Clear the list before appending new items
-
-                    for (var productId in cartItems) {
-                        var item = cartItems[productId];
-                        var listItem = `<li class="list-group-item">
-                            ${item.product_name} - ${item.quantity} - $${item.price}
-                        </li>`;
-                        cartItemsList.append(listItem);
-                    }
+                    modal.find('.modal-body').html(data);
                 }
             });
         });
@@ -151,6 +143,8 @@
         
     });
 </script>
+{% block script %}
+{% endblock %}
 
 
 </html>

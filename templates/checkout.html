@@ -1,9 +1,36 @@
 {% extends 'base.html' %}
 
-{% block title %}Checkout{% endblock %}
+{% block title %}Votre Commande{% endblock %}
 
 {% block content %}
-    <h2>Checkout</h2>
-    <p>Your order has been processed successfully!</p>
-    <a href="{% url 'product' %}" class="btn btn-primary">Continue Shopping</a>
+<div class="container">
+    <h1 class="my-4">Commander</h1>
+    <div class="row">
+        <div class="col-lg-8">
+            <ul class="list-group mb-4">
+                {% for item in cart_products %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="my-0">{{ item.product.name }}</h5>
+                        <small class="text-muted">Quantiter: {{ item.quantity }}</small>
+                    </div>
+                </li>
+                {% endfor %}
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Total (FCFA)</span>
+                    <strong>{{ total_price }} FCFA</strong>
+                </li>
+            </ul>
+            <form method="post" action="{% url 'process_order' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Passez Commande</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 {% endblock %}

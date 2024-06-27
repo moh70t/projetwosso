@@ -1,0 +1,15 @@
+{% load static %}
+{% load custom_filters %}
+
+<ul>
+    {% for item in cart.cartproduct_set.all %}
+        <li>
+            <h2>{{ item.product.name }}</h2>
+            <p>Quantity: {{ item.quantity }}</p>
+            <p>Price: ${{ item.product.price }}</p>
+            <p>Total: ${{ item.quantity|multiply:item.product.price }}</p>
+        </li>
+    {% endfor %}
+</ul>
+<p>Total: {{ cart.cartproduct_set.all|sum:'quantity' }} FCFA</p>
+

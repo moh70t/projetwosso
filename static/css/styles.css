@@ -16,6 +16,16 @@ body {
     box-sizing: border-box;
 }
 
+#overlay {
+    background-color: rgba(179, 177, 177, 0.469); /* Blanc mais pas trop opaque */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 190px;
+    z-index: 0;
+}
+
 header {
     display: flex!important;
     justify-content: space-between;
@@ -30,16 +40,22 @@ header {
     padding: 20px 0;
 }
 
+header a{
+    z-index: 1;
+}
+
 nav ul {
     display: flex;
     justify-content: space-between;
     align-items: center;
     list-style: none;
+    z-index: 1;
 }
 
 nav ul li {
     display: inline;
     margin: 0 1rem;
+    z-index: 1;
 }
 
 nav ul li a {
@@ -48,9 +64,16 @@ nav ul li a {
     font-weight: bold;
     text-decoration: none;
     padding: 10px;
+    z-index: 1;
 }
 
-nav ul li a:hover {
+nav ul li a:hover{
+    background-color: #dddddd71;
+    color: inherit;
+    border-radius: 15px;
+}
+
+a.nav-link:hover {
     background-color: #dddddd71;
     color: inherit;
     border-radius: 15px;
