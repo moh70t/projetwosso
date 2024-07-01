@@ -15,32 +15,32 @@
         </select>
     </form>
 
-    <div class="product-list">
-        {% for product in page_obj %}
-            <div class="product-card">
-                <h3>{{ product.nom }}</h3>
-                <p>{{ product.description }}</p>
-                <p>Price: {{ product.prix }}</p>
-                <p>Category: {{ product.categorie }}</p>
-            </div>
-        {% endfor %}
+    <div class="row">
+        <div class="product-list">
+            {% for product in products %}
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <div class="card">
+                        <div class="card-header">{{ product.name }}</div>
+                      <div class="card-body">
+                        <h6 class="card-title">{{ product.description }}</h6>
+                        <p class="card-text">Price: {{ product.price }}</p>
+                        <p class="card-text">Poids: {{ product.weight }}</p>
+                        <p class="card-text">Category: {{ product.categorie }}</p>
+                        <a >Acheter</a>
+                        <form action="{% url 'add_to_cart' product.id%}" method="post">
+                            {% csrf_token %}
+                            <input type="number" name="quantity" min="1" value="1">
+                            <button type="submit" class="btn btn-primary">Acheter</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                
+            {% endfor %}
+    
+        </div>
+        
+
     </div>
 
-    <div class="pagination">
-        <span class="step-links">
-            {% if page_obj.has_previous %}
-                <a href="?page=1&q={{ query }}&category={{ selected_category }}">&laquo; first</a>
-                <a href="?page={{ page_obj.previous_page_number }}&q={{ query }}&category={{ selected_category }}">previous</a>
-            {% endif %}
-
-            <span class="current">
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-            </span>
-
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}&q={{ query }}&category={{ selected_category }}">next</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}&q={{ query }}&category={{ selected_category }}">last &raquo;</a>
-            {% endif %}
-        </span>
-    </div>
 {% endblock %}

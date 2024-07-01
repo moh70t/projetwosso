@@ -13,37 +13,55 @@
 </head>
 <body>
     <header>
-        <h1>An ka Wosso</h1>
+        <a href="#">
+            {% load static %}
+            <img src="{% static 'img/logo.png' %}" alt="" height="150px" width="150px">
+        </a>
         <nav>
             <ul>
-                <li><a href="{% url 'index' %}">Accueil</a></li>
-                <li><a href="{% url 'product' %}">Nos produits</a></li>
-                <li><a href="{% url 'about' %}">A propos de Nous</a></li>
-                <li><a href="{% url 'contact' %}">Contact</a></li>
+                <li><a class="nav-link" href="{% url 'index' %}">Accueil</a></li>
+                <li><a class="nav-link" href="{% url 'product_list' %}">Nos produits</a></li>
+                <li><a class="nav-link" href="{% url 'about' %}">A propos de Nous</a></li>
+                <li><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
                 <li>
-                    <a class="nav-link" href="#" data-toggle="modal" data-target="#cartModal">Cart</a>
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#cartModal">Panier</a>
                 </li>
+
                 {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-                    </li>
+
+                <li class="nav-item">
+                    <span class="navbar-text">Hello, {{ user.first_name }} {{ user.last_name }}</span>
+                </li>
+
+                <li class="nav-item">
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-link nav-link" style="display: inline; padding: 0; margin: 0;">Logout</button>
+                    </form>
+                </li>
+
                 {% else %}
+
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'login' %}">Login</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'register' %}">Sign Up</a>
                     </li>
+
                 {% endif %}
+
             </ul>
         </nav>
+            </div>
+        <div id="overlay"></div>
     </header>
     <main>
         <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="cartModalLabel">My Cart</h5>
+                        <h5 class="modal-title" id="cartModalLabel">Votre Panier</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -54,8 +72,23 @@
                         </ul>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <a href="{% url 'checkout' %}" class="btn btn-primary">Checkout</a>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        <a href="{% url 'checkout' %}" class="btn btn-primary">Commander</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="loginModalLabel">Login</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- The login form will be inserted here via JavaScript -->
                     </div>
                 </div>
             </div>
@@ -71,26 +104,47 @@
 <script>
     $(document).ready(function() {
         $('#cartModal').on('show.bs.modal', function (e) {
+            var modal = $(this)
             $.ajax({
                 url: '{% url "cart" %}',
                 method: 'GET',
                 success: function (data) {
-                    var cartItems = data.cart;
-                    var cartItemsList = $('#cart-items');
-                    cartItemsList.empty();  // Clear the list before appending new items
-
-                    for (var productId in cartItems) {
-                        var item = cartItems[productId];
-                        var listItem = `<li class="list-group-item">
-                            ${item.product_name} - ${item.quantity} - $${item.price}
-                        </li>`;
-                        cartItemsList.append(listItem);
-                    }
+                    modal.find('.modal-body').html(data);
                 }
             });
         });
+
+        $('#loginModal').on('show.bs.modal', function (e) {
+                var modal = $(this);
+                $.ajax({
+                    url: "{% url 'login' %}",
+                    success: function(data) {
+                        modal.find('.modal-body').html(data);
+                    }
+                });
+            });
+
+        // $('#loginModal').on('submit', 'form', function (e) {
+        //         e.preventDefault();
+        //         var form = $(this);
+        //         $.ajax({
+        //             url: form.attr('action'),
+        //             method: form.attr('method'),
+        //             data: form.serialize(),
+        //             success: function (data) {
+        //                 if (data.success) {
+        //                     location.reload(); // Reload the page on successful login
+        //                 } else {
+        //                     modal.find('.modal-body').html(data.form_html); // Update the modal with the form again in case of errors
+        //                 }
+        //             }
+        //         });
+        //     });
+        
     });
 </script>
+{% block script %}
+{% endblock %}
 
 
 </html>
